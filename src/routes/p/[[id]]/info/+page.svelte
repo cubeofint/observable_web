@@ -8,13 +8,27 @@
   $: extraData = Object.entries(info?.additionalDiagnostics ?? {}).map(([key, val]) => {
     return {
       key,
-      val,
+      val: formatDiagnosticValue(val),
       open: true,
       label() {
         return `${key} ${this.open ? '-' : '+'}`;
       }
     };
   });
+
+  function formatDiagnosticValue(val: unknown): string {
+    if (typeof val === 'string') {
+      return val;
+    }
+    if (val === null || val === undefined) {
+      return String(val);
+    }
+    try {
+      return JSON.stringify(val, null, 2);
+    } catch {
+      return String(val);
+    }
+  }
 </script>
 
 <table class="overflow-auto">
