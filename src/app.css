@@ -3,5 +3,55 @@
 @tailwind utilities;
 
 html {
-  @apply text-white bg-neutral-900;
+  @apply bg-ink-950 text-zinc-100 antialiased;
+}
+
+body {
+  min-height: 100vh;
+}
+
+a {
+  @apply text-sky-300 underline-offset-2 hover:text-sky-200 hover:underline;
+}
+
+code {
+  @apply font-mono text-[0.92em];
+}
+
+@layer components {
+  .panel {
+    @apply rounded-xl border border-ink-600 bg-ink-800 shadow-panel;
+  }
+
+  .field {
+    @apply w-full rounded-lg border border-ink-600 bg-ink-900 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-ember-400 focus:outline-none;
+  }
+
+  .data-table {
+    @apply w-full border-collapse text-sm;
+  }
+
+  .data-table td {
+    @apply border-b border-ink-700 px-3 py-2 align-middle;
+  }
+
+  .section-row {
+    @apply cursor-pointer select-none bg-ink-800 text-zinc-100;
+  }
+
+  .section-row:hover {
+    @apply bg-ink-700;
+  }
+
+  .visit-btn {
+    @apply rounded-md border border-ink-600 bg-ink-900 px-2 py-1 text-xs font-medium text-sky-300 hover:border-sky-400 hover:bg-ink-800;
+  }
+
+  .rate-bar {
+    @apply h-1.5 overflow-hidden rounded-full bg-ink-700;
+  }
+
+  .rate-bar > span {
+    @apply block h-full rounded-full bg-ember-400;
+  }
 }

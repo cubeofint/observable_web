@@ -10,7 +10,9 @@
 <slot />
 
 {#if $notification}
-  <div class="fixed right-10 bottom-10 bg-gray-700/50 w-96 p-2 rounded-lg backdrop-blur-md">
+  <div
+    class="fixed bottom-6 right-6 z-50 max-w-md rounded-lg border border-ink-600 bg-ink-800/95 px-4 py-3 text-sm text-zinc-100 shadow-panel backdrop-blur"
+  >
     {@html $notification}
   </div>
 {/if}

@@ -19,3 +19,11 @@ export function download(filename: string, data: string) {
   a.download = filename;
   a.click();
 }
+
+export function formatMicrosPerTick(rate: number): string {
+  return `${Math.round(rate / 1000)} μs/t`;
+}
+
+export function formatMicros(duration: number): string {
+  return `${Math.round(duration / 1000)} μs`;
+}

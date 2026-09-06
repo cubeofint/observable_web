@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { notification } from '$lib/stores';
-  import { copyTPCommand } from '$lib/utils';
+  import { copyTPCommand, formatMicrosPerTick } from '$lib/utils';
   import type { PageData } from '../$types';
 
   export let data: PageData;
@@ -31,40 +30,50 @@
       });
     return { name, chunks, rate, enabled: true };
   });
+
+  $: maxRate = Math.max(...chunkMap.map((d) => d.rate), 1);
 </script>
 
-<table class="border-b w-full">
-  {#each chunkMap as { name, chunks, rate, enabled }}
-    <tr class="tbl">
-      <td
-        on:click={(_) => (enabled = !enabled)}
-        style="width: 50%; font-weight: bold; cursor: pointer;"
-        >{enabled ? '-' : '+'} {name} &mdash; {chunks.length} chunks</td
-      >
-      <td>{Math.round(rate / 1000)} μs/t</td>
-      <td>Position</td>
-    </tr>
-    {#if enabled}
-      {#each chunks as entry}
-        {@const { x, z } = entry.chunk}
-        {@const position = {
-          x: x * 16 + 8,
-          y: 128,
-          z: z * 16 + 8
-        }}
-        <tr style="font-size: 1em; border-bottom: 1px solid #404040;">
-          <td style="padding-left: 2em;">({x}, {z})</td>
-          <td>{Math.round(entry.rate / 1000)} μs/t</td>
-          <td style="width: 30%;">
-            <button
-              style="cursor: pointer; color: lightblue; display: inline-block;"
-              on:click={(_) => copyTPCommand(name, position)}
-            >
-              Visit
-            </button>
+<div class="panel overflow-x-auto">
+  <table class="data-table">
+    {#each chunkMap as { name, chunks, rate, enabled }}
+      <tbody>
+        <tr class="section-row" on:click={() => (enabled = !enabled)}>
+          <td class="w-1/2 font-semibold">
+            <span class="text-zinc-400">{enabled ? '−' : '+'}</span>
+            {name}
+            <span class="ml-2 font-normal text-zinc-400">{chunks.length} chunks</span>
           </td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="rate-bar w-24">
+                <span style="width: {(100 * rate) / maxRate}%"></span>
+              </div>
+              <span class="font-mono">{formatMicrosPerTick(rate)}</span>
+            </div>
+          </td>
+          <td class="text-zinc-400">Position</td>
         </tr>
-      {/each}
-    {/if}
-  {/each}
-</table>
+        {#if enabled}
+          {#each chunks as entry}
+            {@const { x, z } = entry.chunk}
+            {@const position = {
+              x: x * 16 + 8,
+              y: 128,
+              z: z * 16 + 8
+            }}
+            <tr class="hover:bg-ink-800/70">
+              <td class="pl-8 font-mono">({x}, {z})</td>
+              <td class="font-mono text-zinc-300">{formatMicrosPerTick(entry.rate)}</td>
+              <td>
+                <button type="button" class="visit-btn" on:click={() => copyTPCommand(name, position)}>
+                  Visit
+                </button>
+              </td>
+            </tr>
+          {/each}
+        {/if}
+      </tbody>
+    {/each}
+  </table>
+</div>

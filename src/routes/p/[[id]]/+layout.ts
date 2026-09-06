@@ -1,5 +1,4 @@
-import { localData } from '$lib/stores';
-import { get } from 'svelte/store';
+import { getLocalProfile } from '$lib/stores';
 import type { DataWithDiagnostics, Entry, Profile } from '../../../lib/types';
 import { error } from '@sveltejs/kit';
 
@@ -36,7 +35,7 @@ const getEntries = (profile: Profile) => {
 export async function load({ params, fetch }) {
   let data: DataWithDiagnostics;
   if (!params.id) {
-    const local = get(localData);
+    const local = getLocalProfile();
     if (!local) error(404, 'No data');
     if ('data' in local) {
       data = local;

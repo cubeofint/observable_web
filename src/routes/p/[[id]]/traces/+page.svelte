@@ -8,7 +8,9 @@
 </script>
 
 {#if traces}
-  <Trace data={traces} />
+  <div class="panel p-4">
+    <Trace data={traces} />
+  </div>
 {:else}
-  <div class="w-full">No traces available</div>
+  <div class="panel px-6 py-10 text-center text-zinc-400">No traces available</div>
 {/if}
