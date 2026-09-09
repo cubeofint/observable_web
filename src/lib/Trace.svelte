@@ -9,14 +9,15 @@
 
 <div class="w-full">
   <button
+    type="button"
     class="flex w-full flex-row items-center rounded-md px-1 py-0.5 text-left hover:bg-ink-700"
     on:click={() => (expanded = !expanded)}
   >
     <span class="text-sky-300" class:invisible={data.children.length === 0}>
       <svelte:component this={expanded ? Minus : Plus} size={16} />
     </span>
-    <code class="pl-2 text-zinc-200">{data.className}:{data.methodName}</code>
-    <span class="ml-auto font-mono text-xs text-zinc-400">
+    <code class="min-w-0 flex-1 break-all pl-2 text-zinc-200">{data.className}:{data.methodName}</code>
+    <span class="ml-3 shrink-0 font-mono text-xs text-zinc-400">
       {((100.0 * data.count) / (total ?? data.count)).toFixed(2)}%
     </span>
   </button>
